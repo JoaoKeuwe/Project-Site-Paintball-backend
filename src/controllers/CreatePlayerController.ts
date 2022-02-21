@@ -6,18 +6,25 @@ import { Request, Response } from 'express';
 
 export class CreatePlayerController {
   async handle(req: Request, res: Response) {
-    const player: Player = req.body;
+    try {
+      const player: Player = req.body;
 
-    if(Number(player.role)) player.role = Role[Number(player.role)];
-    if(Number(player.priWeapon)) player.priWeapon = Weapon[Number(player.priWeapon)];
-    if(Number(player.secWeapon)) player.secWeapon = Weapon[Number(player.secWeapon)];
+      if (Number(player.role)) player.role = Role[Number(player.role)];
+      if (Number(player.priWeapon))
+        player.priWeapon = Weapon[Number(player.priWeapon)];
+      if (Number(player.secWeapon))
+        player.secWeapon = Weapon[Number(player.secWeapon)];
 
-    const service = new CreatePlayerService();
+      const service = new CreatePlayerService();
 
-    const result: Player | Error = await service.execute(player);
+      const result: Player | Error = await service.execute(player);
 
-    if(result instanceof Error) return res.status(400).json(result.message);
+      if (result instanceof Error) return res.status(400).json(result.message);
 
-    return res.status(200).json(result);
+      return res.status(200).json(result);
+    } catch (err) {
+      console.log(err)
+      return res.status(500).json('internal server error');
+    }
   }
 }
