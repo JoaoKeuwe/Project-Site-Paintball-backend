@@ -1,3 +1,5 @@
+import { VerifyPlayerExistence } from './../controllers/VerifyPlayerExistence';
+import { UpdatePlayerController } from './../controllers/UpdatePlayerController';
 import { GetAllPlayersController } from './../controllers/GetAllPlayersController';
 import { CreatePlayerController } from './../controllers/CreatePlayerController';
 import { GetPlayerController } from '../controllers/GetPlayerController';
@@ -15,7 +17,14 @@ main
 
 player
   .route('/player/:id')
-  .get(new GetPlayerController().handle);
+  .get(new GetPlayerController().handle)
+  .put(
+    new VerifyPlayerExistence().handle,
+    new VerifyPlayerStructure().handle,
+    new VerifyRole().handle,
+    new VerifyWeapon().handle,
+    new UpdatePlayerController().handle,
+  );
 
 player
   .route('/player')
@@ -27,6 +36,6 @@ player
   )
   .get(
     new GetAllPlayersController().handle,
-  )
+  );
 
 export { main, player };
