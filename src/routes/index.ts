@@ -1,3 +1,4 @@
+import { AuthController } from './../controllers/Auth/AuthController';
 import { LoginController } from '../controllers/Auth/LoginController';
 import { DeletePlayerController } from './../controllers/DeletePlayerController';
 import { VerifyPlayerExistence } from '../controllers/Middlewares/VerifyPlayerExistence';
@@ -20,8 +21,12 @@ main
 
 player
   .route('/player/:id')
-  .get(new GetPlayerController().handle)
+  .get(
+    new AuthController().handle,
+    new GetPlayerController().handle
+    )
   .put(
+    new AuthController().handle,
     new VerifyPlayerExistence().handle,
     new VerifyPlayerStructure().handle,
     new VerifyRole().handle,
@@ -29,6 +34,7 @@ player
     new UpdatePlayerController().handle,
   )
   .delete(
+    new AuthController().handle,
     new VerifyPlayerExistence().handle,
     new DeletePlayerController().handle,
   );
@@ -36,12 +42,14 @@ player
 player
   .route('/player')
   .post(
+    new AuthController().handle,
     new VerifyPlayerStructure().handle,
     new VerifyRole().handle,
     new VerifyWeapon().handle,
     new CreatePlayerController().handle,
   )
   .get(
+    new AuthController().handle,
     new GetAllPlayersController().handle,
   );
 
