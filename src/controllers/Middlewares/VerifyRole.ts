@@ -1,4 +1,4 @@
-import { Role } from './../utils/Role';
+import { Role } from '../../utils/Role';
 import { NextFunction, Request, Response } from 'express';
 
 export class VerifyRole {

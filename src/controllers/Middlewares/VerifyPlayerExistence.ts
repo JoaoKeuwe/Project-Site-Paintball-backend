@@ -1,6 +1,5 @@
-import { Player } from './../entities/Player';
 import { NextFunction, Request, Response } from 'express';
-import { GetPlayerService } from '../services/GetPlayerService';
+import { GetPlayerService } from '../../services/GetPlayerService';
 
 export class VerifyPlayerExistence {
   async handle(req: Request, res: Response, next: NextFunction) {
