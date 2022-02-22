@@ -1,16 +1,18 @@
+import { LoginController } from '../controllers/Auth/LoginController';
 import { DeletePlayerController } from './../controllers/DeletePlayerController';
-import { VerifyPlayerExistence } from './../controllers/VerifyPlayerExistence';
+import { VerifyPlayerExistence } from '../controllers/Middlewares/VerifyPlayerExistence';
 import { UpdatePlayerController } from './../controllers/UpdatePlayerController';
 import { GetAllPlayersController } from './../controllers/GetAllPlayersController';
 import { CreatePlayerController } from './../controllers/CreatePlayerController';
 import { GetPlayerController } from '../controllers/GetPlayerController';
-import { VerifyWeapon } from './../controllers/VerifyWeapon';
-import { VerifyRole } from './../controllers/VerifyRole';
-import { VerifyPlayerStructure } from './../controllers/VerifyPlayerStructure';
+import { VerifyWeapon } from './../controllers/Middlewares/VerifyWeapon';
+import { VerifyRole } from './../controllers/Middlewares/VerifyRole';
+import { VerifyPlayerStructure } from './../controllers/Middlewares/VerifyPlayerStructure';
 import { Router } from 'express';
 
 const main = Router();
 const player = Router();
+const login = Router();
 
 main
   .route('/')
@@ -43,4 +45,10 @@ player
     new GetAllPlayersController().handle,
   );
 
-export { main, player };
+login
+  .route('/login')
+  .post(
+    new LoginController().handle,
+  )
+
+export { main, player, login };
