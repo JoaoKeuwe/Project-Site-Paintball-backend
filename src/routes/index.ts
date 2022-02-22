@@ -1,3 +1,4 @@
+import { DeletePlayerController } from './../controllers/DeletePlayerController';
 import { VerifyPlayerExistence } from './../controllers/VerifyPlayerExistence';
 import { UpdatePlayerController } from './../controllers/UpdatePlayerController';
 import { GetAllPlayersController } from './../controllers/GetAllPlayersController';
@@ -24,6 +25,10 @@ player
     new VerifyRole().handle,
     new VerifyWeapon().handle,
     new UpdatePlayerController().handle,
+  )
+  .delete(
+    new VerifyPlayerExistence().handle,
+    new DeletePlayerController().handle,
   );
 
 player
