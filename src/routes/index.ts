@@ -1,16 +1,19 @@
+import { AuthController } from './../controllers/Auth/AuthController';
+import { LoginController } from '../controllers/Auth/LoginController';
 import { DeletePlayerController } from './../controllers/DeletePlayerController';
-import { VerifyPlayerExistence } from './../controllers/VerifyPlayerExistence';
+import { VerifyPlayerExistence } from '../controllers/Middlewares/VerifyPlayerExistence';
 import { UpdatePlayerController } from './../controllers/UpdatePlayerController';
 import { GetAllPlayersController } from './../controllers/GetAllPlayersController';
 import { CreatePlayerController } from './../controllers/CreatePlayerController';
 import { GetPlayerController } from '../controllers/GetPlayerController';
-import { VerifyWeapon } from './../controllers/VerifyWeapon';
-import { VerifyRole } from './../controllers/VerifyRole';
-import { VerifyPlayerStructure } from './../controllers/VerifyPlayerStructure';
+import { VerifyWeapon } from './../controllers/Middlewares/VerifyWeapon';
+import { VerifyRole } from './../controllers/Middlewares/VerifyRole';
+import { VerifyPlayerStructure } from './../controllers/Middlewares/VerifyPlayerStructure';
 import { Router } from 'express';
 
 const main = Router();
 const player = Router();
+const login = Router();
 
 main
   .route('/')
@@ -18,8 +21,12 @@ main
 
 player
   .route('/player/:id')
-  .get(new GetPlayerController().handle)
+  .get(
+    new AuthController().handle,
+    new GetPlayerController().handle
+    )
   .put(
+    new AuthController().handle,
     new VerifyPlayerExistence().handle,
     new VerifyPlayerStructure().handle,
     new VerifyRole().handle,
@@ -27,6 +34,7 @@ player
     new UpdatePlayerController().handle,
   )
   .delete(
+    new AuthController().handle,
     new VerifyPlayerExistence().handle,
     new DeletePlayerController().handle,
   );
@@ -34,13 +42,21 @@ player
 player
   .route('/player')
   .post(
+    new AuthController().handle,
     new VerifyPlayerStructure().handle,
     new VerifyRole().handle,
     new VerifyWeapon().handle,
     new CreatePlayerController().handle,
   )
   .get(
+    new AuthController().handle,
     new GetAllPlayersController().handle,
   );
 
-export { main, player };
+login
+  .route('/login')
+  .post(
+    new LoginController().handle,
+  )
+
+export { main, player, login };

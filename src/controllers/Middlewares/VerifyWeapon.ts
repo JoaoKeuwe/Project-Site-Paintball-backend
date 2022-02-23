@@ -1,4 +1,4 @@
-import { Weapon } from './../utils/Weapon';
+import { Weapon } from '../../utils/Weapon';
 import { NextFunction, Request, Response } from 'express';
 
 export class VerifyWeapon {
